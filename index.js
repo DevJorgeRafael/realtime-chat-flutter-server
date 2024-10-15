@@ -1,9 +1,16 @@
 import express from 'express';
 import path from 'path';
+import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { socketController } from './sockets/socket.js';
+
+dotenv.config()
+
+// DB Config
+import { dbConnection } from './database/config.js';
+dbConnection()
 
 // App de Express
 const app = express();
