@@ -10,10 +10,11 @@ dotenv.config()
 
 // DB Config
 import { dbConnection } from './database/config.js';
-dbConnection()
+dbConnection();
 
 // App de Express
 const app = express();
+app.use(express.json());
 
 // Creando servidor HTTP
 const server = createServer(app);
