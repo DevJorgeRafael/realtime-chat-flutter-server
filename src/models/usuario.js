@@ -27,3 +27,5 @@ UsuarioSchema.method('toJSON', function () {
     object.uid = _id;
     return object;
 })
+
+export default model('Usuario', UsuarioSchema);
