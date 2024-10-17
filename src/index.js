@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { socketController } from './sockets/socket.js';
+import { router as authRoutes } from './routes/auth.js';
 
 dotenv.config()
 
@@ -15,6 +16,10 @@ dbConnection();
 // App de Express
 const app = express();
 app.use(express.json());
+
+// Rutas
+app.use('/api/auth', authRoutes)
+
 
 // Creando servidor HTTP
 const server = createServer(app);

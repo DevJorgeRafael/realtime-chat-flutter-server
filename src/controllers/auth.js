@@ -1,7 +1,7 @@
-import { respons } from 'express';
+import { response } from 'express';
 import bcrypt from 'bcryptjs';
 
-import Usuario from '../models/usuario';
+import { UsuarioSchema } from '../models/usuario.js';
 import { generarJWT } from '../helpers/jwt.js';
 
 
@@ -11,7 +11,7 @@ export const crearUsuario = async (req, res = response) => {
 
     try {
 
-        const existeEmail = await Usuario.findOne({ email });
+        const existeEmail = await UsuarioSchema.findOne({ email });
         if (existeEmail) {
             return res.status(400).json({
                 ok: false,
@@ -19,7 +19,7 @@ export const crearUsuario = async (req, res = response) => {
             });
         }
 
-        const usuario = new Usuario(req.body);
+        const usuario = new UsuarioSchema(req.body);
 
         // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
@@ -52,7 +52,7 @@ export const login = async (req, res = response) => {
 
     try {
 
-        const usuarioDB = await Usuario.findOne({ email });
+        const usuarioDB = await UsuarioSchema.findOne({ email });
         if (!usuarioDB) {
             return res.status(404).json({
                 ok: false,
@@ -99,13 +99,12 @@ export const renewToken = async (req, res = response) => {
     const token = await generarJWT(uid);
 
     // Obtener el usuario por el UID, Usuario.findById... 
-    const usuario = await Usuario.findById(uid);
+    const usuario = await UsuarioSchema.findById(uid);
 
     res.json({
         ok: true,
         usuario,
         token
     });
-
 }
 
