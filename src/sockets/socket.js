@@ -1,7 +1,15 @@
+import { comprobarJWT } from "../helpers/jwt.js";
+
 export const socketController = (io) => {
     // Mensajes de Sockets
     io.on('connection', (client) => {
         console.log('Cliente conectado');
+
+        const [valido, uid] = comprobarJWT(client.handshake.headers['x-token']);
+        
+        if( !valido ) {
+            return client.disconnect();
+        }
 
         client.on('disconnect', () => {
             console.log('Cliente desconectado');
