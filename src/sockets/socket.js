@@ -15,14 +15,20 @@ export const socketController = (io) => {
         // Cliente autenticado
         await usuarioConectado( uid );
 
+        // Ingresar al usuario a una sala en particular
+        client.join( uid );
+
+        // Escuchar del cliente el mensaje personal
+        client.on('mensaje-personal', ( payload ) => {
+            console.log(payload)
+
+            io.to( payload.to ).emit('mensaje-personal', payload );
+        })
+
         client.on('disconnect', () => {
             usuarioDesconectado( uid ); 
         });
 
-        // Puedes descomentar esto para probar el envío y recepción de mensajes
-        // client.on('mensaje', (payload) => {
-        //     console.log('Mensaje recibido', payload);
-        //     io.emit('mensaje', { admin: 'Nuevo mensaje desde el servidor' });
-        // });
+        
     });
 };
