@@ -6,6 +6,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { socketController } from './sockets/socket.js';
 import { router as authRoutes } from './routes/auth.js';
+import { router as usersRoutes } from './routes/usuarios.js';
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/auth', authRoutes)
+app.use('/api/usuarios', usersRoutes)
 
 
 // Creando servidor HTTP
