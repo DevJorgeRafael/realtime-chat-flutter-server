@@ -1,5 +1,5 @@
 import { comprobarJWT } from "../helpers/jwt.js";
-import { usuarioConectado, usuarioDesconectado } from "../controllers/socket.js";
+import { grabarMensaje, usuarioConectado, usuarioDesconectado } from "../controllers/socket.js";
 
 export const socketController = (io) => {
     // Mensajes de Sockets
@@ -19,8 +19,9 @@ export const socketController = (io) => {
         client.join( uid );
 
         // Escuchar del cliente el mensaje personal
-        client.on('mensaje-personal', ( payload ) => {
+        client.on('mensaje-personal', async ( payload ) => {
             console.log(payload)
+            await grabarMensaje( payload );
 
             io.to( payload.to ).emit('mensaje-personal', payload );
         })
