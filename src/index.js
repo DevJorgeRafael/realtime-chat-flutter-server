@@ -28,9 +28,12 @@ app.use('/api/mensajes', messagesRoutes)
 // Creando servidor HTTP
 const server = createServer(app);
 const io = require('socket.io')(server, {
-    transports: ['websocket', 'polling'],
-    allowEIO3: true, // para mejorar la compatibilidad si el cliente usa una versión antigua de Socket.IO
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+    }
 });
+
 
 // Obtener __dirname equivalente en ES modules
 const __filename = fileURLToPath(import.meta.url);
