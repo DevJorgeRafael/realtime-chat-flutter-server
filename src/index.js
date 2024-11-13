@@ -27,7 +27,15 @@ app.use('/api/mensajes', messagesRoutes)
 
 // Creando servidor HTTP
 const server = createServer(app);
-const io = new Server(server); // Inicializa io
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['x-token'],
+        credentials: true,
+    },
+    transports: ['websocket']
+});
 
 // Obtener __dirname equivalente en ES modules
 const __filename = fileURLToPath(import.meta.url);
