@@ -27,14 +27,9 @@ app.use('/api/mensajes', messagesRoutes)
 
 // Creando servidor HTTP
 const server = createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: '*',
-        methods: ['GET', 'POST'],
-        allowedHeaders: ['x-token'],
-        credentials: true,
-    },
-    transports: ['websocket']
+const io = require('socket.io')(server, {
+    transports: ['websocket', 'polling'],
+    allowEIO3: true, // para mejorar la compatibilidad si el cliente usa una versión antigua de Socket.IO
 });
 
 // Obtener __dirname equivalente en ES modules
