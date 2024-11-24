@@ -4,7 +4,7 @@ import { grabarMensaje, usuarioConectado, usuarioDesconectado } from "../control
 export const socketController = (io) => {
     // Mensajes de Sockets
     io.on('connection', async (client) => {
-        console.log('Cliente conectado');
+        console.log('Cliente conectado', client.id);
 
         const [valido, uid] = comprobarJWT(client.handshake.headers['x-token']);
         
@@ -20,7 +20,6 @@ export const socketController = (io) => {
 
         // Escuchar del cliente el mensaje personal
         client.on('mensaje-personal', async ( payload ) => {
-            console.log(payload)
             await grabarMensaje( payload );
 
             io.to( payload.to ).emit('mensaje-personal', payload );
